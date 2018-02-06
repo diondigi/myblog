@@ -5,7 +5,7 @@ from comments.forms import CommentForm
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import Post,Category
+from .models import Post,Category,Tag
 from django.views.generic import ListView, DetailView
 
 class IndexView(ListView):
@@ -209,6 +209,15 @@ class CategoryView(ListView):
     def get_queryset(self):
         cate = get_object_or_404(Category, pk=self.kwargs.get('pk'))
         return super(CategoryView, self).get_queryset().filter(category=cate)
+
+class TagView(ListView):
+    model = Post
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
+        return super(TagView, self).get_queryset().filter(tags=tag)
 
 
 
